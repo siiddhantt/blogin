@@ -1,12 +1,13 @@
-import { Client } from "@planetscale/database";
-import { drizzle } from "drizzle-orm/planetscale-serverless";
+import { Pool } from "pg";
+import dotenv from "dotenv";
+import { drizzle } from "drizzle-orm/node-postgres";
 
-import { env } from "~/env";
+dotenv.config({ path: ".env" });
 import * as schema from "./schema";
 
 export const db = drizzle(
-  new Client({
-    url: env.DATABASE_URL,
-  }).connection(),
-  { schema }
+  new Pool({
+    connectionString: process.env.DATABASE_URL ?? "",
+  }),
+  { schema },
 );

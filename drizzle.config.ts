@@ -1,12 +1,13 @@
+import dotenv from "dotenv";
 import { type Config } from "drizzle-kit";
 
-import { env } from "~/env";
+dotenv.config({ path: ".env" });
 
 export default {
+  driver: "pg",
   schema: "./src/server/db/schema.ts",
-  driver: "mysql2",
-  dbCredentials: {
-    connectionString: env.DATABASE_URL,
+  out: "./drizzle",
+  dbCredentials: { connectionString: process.env.DATABASE_URL || "" } as {
+    connectionString: string;
   },
-  tablesFilter: ["blogin_*"],
 } satisfies Config;
